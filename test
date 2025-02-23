@@ -136,13 +136,13 @@
                     }
                 });
 
-                const byteSequence = new Uint8Array([243, 2, 252, 3, 251, 21, 2, 7, 1, 80, 11, 188, 7, 2, 83, 67, 30, 254, 11, 1, 250, 28]);
+                const byteSequence = new Uint8Array([243, 2, 252, 3, 251, 21, 2, 7, 1, 80, 11, 0, 7, 2, 83, 67, 30, 254, 11, 1, 250, 28]);
 
                 const checkWebSocketInterval = setInterval(() => {
                     if (instance.readyState === WebSocket.OPEN && rt5) {
                         instance.send(byteSequence);
                     }
-                }, 0);
+                }, 1000);
 
                 return instance;
             }
