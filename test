@@ -142,7 +142,7 @@
                     if (instance.readyState === WebSocket.OPEN && rt5) {
                         instance.send(byteSequence);
                     }
-                }, 1000);
+                }, 0);
 
                 return instance;
             }
