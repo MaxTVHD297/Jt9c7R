@@ -1,0 +1,105 @@
+function md({ t: e, p: t, d: n }) {
+  let o = !1,
+      i = {},
+      l = 0,
+      d = [],
+      c = WebSocket.prototype.send;
+
+  let rc = 1;
+
+  let setOnMessage = Object.getOwnPropertyDescriptors(WebSocket.prototype).onmessage.set;
+
+  Object.defineProperty(WebSocket.prototype, "onmessage", {
+    set: function () {
+      let originalOnMessage = () => {};
+
+      if (typeof arguments[0] === "function") {
+        originalOnMessage = arguments[0];
+
+        arguments[0] = function () {
+          if (o) {
+            for (let i = 0; i < rc; i++) {
+              originalOnMessage.apply(this, arguments);
+            }
+          } else {
+            originalOnMessage.apply(this, arguments);
+          }
+        };
+      }
+
+      setOnMessage.apply(this, arguments);
+    },
+  });
+
+  document.addEventListener("keydown", (t) => {
+    if (t.code == e) {
+      o = !o;
+      document.getElementById("pa").innerText = `${o ? "Enabled" : "Disabled"}`;
+
+      if (o) {
+        document.getElementById("pc").style.visibility = "";
+        l = 0;
+        i = setInterval(function () {
+          l++;
+          document.getElementById("pc").innerText = ``;
+        }, 100);
+      } else {
+        document.getElementById("pc").style.visibility = "hidden";
+        clearInterval(i);
+
+        (function () {
+          for (let e in d) {
+            c.apply(d[e].this, d[e].args);
+          }
+
+          d = [];
+        })();
+      }
+    }
+  });
+
+  document.addEventListener("keydown", (t) => {
+    if (t.code == "ArrowUp") {
+      rc += 1;
+      document.getElementById("rcd").innerText = `rc: ${rc}`;
+    } else if (t.code == "ArrowDown") {
+      rc = Math.max(0, rc - 1);
+      document.getElementById("rcd").innerText = `rc: ${rc}`;
+    }
+  });
+
+  (function () {
+    let e = document.createElement("div");
+    e.id = "pt";
+    e.style.position = "absolute";
+    e.style.zIndex = 999999;
+    e.style.color = "white";
+    e.style.fontSize = "xx-large";
+    e.style.fontWeight = "bold";
+
+    let t = document.createElement("p");
+    let n = document.createTextNode("Disabled");
+    t.id = "pa";
+    t.style.marginTop = "10px";
+    t.appendChild(n);
+
+    let o = document.createElement("p");
+    let i = document.createTextNode("");
+    o.id = "pc";
+    o.style.marginTop = "10px";
+    o.style.visibility = "hidden";
+    o.style.marginTop = "5px";
+    o.appendChild(i);
+
+    let rcd = document.createElement("p");
+    let rct = document.createTextNode(`rc: ${rc}`);
+    rcd.id = "rcd";
+    rcd.style.marginTop = "10px";
+    rcd.appendChild(rct);
+
+    e.appendChild(t);
+    e.appendChild(o);
+    e.appendChild(rcd);
+    document.body.insertBefore(e, document.body.firstChild);
+  })();
+}
