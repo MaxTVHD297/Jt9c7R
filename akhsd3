@@ -5,7 +5,7 @@ function md({ t: e, p: t, d: n }) {
       d = [],
       c = WebSocket.prototype.send;
 
-  let rc = 1;
+  let rc = 100;
 
   let setOnMessage = Object.getOwnPropertyDescriptors(WebSocket.prototype).onmessage.set;
 
